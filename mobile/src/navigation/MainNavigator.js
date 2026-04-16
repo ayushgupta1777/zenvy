@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity, View } from 'react-native';
@@ -338,6 +339,29 @@ import UpgradeModal from '../components/common/UpgradeModal';
 // APP VERSION
 const CURRENT_VERSION = '1.0.4';
 
+// ==========================================
+// ZENVY CUSTOM CHANGE: Navigation Fix - Tab Bar Visibility
+// Description: This helper hides the bottom tab bar on specific "Action"
+// screens like Checkout and Payment to keep the user focused.
+// ==========================================
+const getTabBarVisibility = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+  const hideOnScreens = [
+    'Checkout', 
+    'Payment', 
+    'PaymentGateway', 
+    'OrderSuccess', 
+    'Addresses', 
+    'ProductDetails',
+    'OrderTracking'
+  ];
+  
+  if (hideOnScreens.includes(routeName)) {
+    return 'none';
+  }
+  return 'flex';
+};
+
 // MAIN NAVIGATOR
 const MainNavigator = () => {
   useActivityTracker(); // 🟢 Real-time monitoring for Developer Terminal
@@ -432,22 +456,44 @@ const MainNavigator = () => {
         <Tab.Screen
           name="Home"
           component={HomeStack}
-          options={{ title: 'Shop' }}
+          options={({ route }) => ({
+            title: 'Shop',
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
         />
 
         {/* RESELLER HUB - Always visible, most prominent */}
         <Tab.Screen
           name="ResellerHub"
           component={ResellerStack}
-          options={{
+          options={({ route }) => ({
             title: 'Earn Money',
-            tabBarLabel: 'Earn'
-          }}
+            tabBarLabel: 'Earn',
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
         />
 
-        <Tab.Screen name="Cart" component={CartStack} />
-        <Tab.Screen name="Orders" component={OrdersStack} />
-        <Tab.Screen name="Profile" component={ProfileStack} />
+        <Tab.Screen 
+          name="Cart" 
+          component={CartStack} 
+          options={({ route }) => ({
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+        />
+        <Tab.Screen 
+          name="Orders" 
+          component={OrdersStack} 
+          options={({ route }) => ({
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+        />
+        <Tab.Screen 
+          name="Profile" 
+          component={ProfileStack} 
+          options={({ route }) => ({
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+        />
       </Tab.Navigator>
       <UpgradeModal
         visible={upgradeInfo.visible}
