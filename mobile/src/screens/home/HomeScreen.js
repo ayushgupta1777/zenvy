@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { fetchProducts } from '../../redux/slices/productSlice';
 import api, { getImageUrl } from '../../services/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { BannerSkeleton, CategorySkeleton, ProductCardSkeleton } from '../../components/common/SkeletonLoader';
 
 const { width } = Dimensions.get('window');
 
@@ -22,8 +23,8 @@ const HomeScreen = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const scrollRef = useRef(null);
 
@@ -34,13 +35,9 @@ const HomeScreen = ({ navigation }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
 
-  // Fetch data on mount
   useEffect(() => {
     dispatch(fetchProducts());
-    fetchBanners();
-    fetchCategories();
-    fetchFeaturedProducts();
-    fetchNotificationCount();
+
     // Start animations
     Animated.parallel([
       Animated.timing(fadeAnim, {
@@ -55,6 +52,18 @@ const HomeScreen = ({ navigation }) => {
         useNativeDriver: true,
       }),
     ]).start();
+
+    // ==========================================
+    // ZENVY CUSTOM CHANGE: Initial Loading Trigger
+    // Description: Orchestrates all parallel fetches to 
+    // stop the skeleton loading once core data is ready.
+    // ==========================================
+    Promise.all([
+      fetchBanners(),
+      fetchCategories(),
+      fetchFeaturedProducts(),
+      fetchNotificationCount()
+    ]).finally(() => setIsInitialLoading(false));
   }, []);
 
 
@@ -371,45 +380,49 @@ const HomeScreen = ({ navigation }) => {
           <View style={{ backgroundColor: '#fff', height: 1000, position: 'absolute', top: -1000, left: 0, right: 0 }} />
           
           {/* BANNER SLIDER */}
-          <View style={styles.bannerContainer}>
-            <ScrollView
-              ref={scrollRef}
-              horizontal
-              pagingEnabled
-              showsHorizontalScrollIndicator={false}
-              onMomentumScrollEnd={(e) => {
-                const index = Math.round(e.nativeEvent.contentOffset.x / width);
-                setBannerIndex(index);
-              }}
-            >
-              {banners.map((banner) => (
-                <TouchableOpacity
-                  key={banner.id}
-                  style={styles.bannerSlide}
-                  activeOpacity={0.9}
-                >
-                  <Image
-                    source={{ uri: getImageUrl(banner.image) }}
-                    style={styles.bannerImage}
-                    resizeMode="cover"
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+          {isInitialLoading ? (
+            <BannerSkeleton />
+          ) : (
+            <View style={styles.bannerContainer}>
+              <ScrollView
+                ref={scrollRef}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                onMomentumScrollEnd={(e) => {
+                  const index = Math.round(e.nativeEvent.contentOffset.x / width);
+                  setBannerIndex(index);
+                }}
+              >
+                {banners.map((banner) => (
+                  <TouchableOpacity
+                    key={banner.id}
+                    style={styles.bannerSlide}
+                    activeOpacity={0.9}
+                  >
+                    <Image
+                      source={{ uri: getImageUrl(banner.image) }}
+                      style={styles.bannerImage}
+                      resizeMode="cover"
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
 
-            {/* Dots Indicator */}
-            <View style={styles.dotsContainer}>
-              {banners.map((_, index) => (
-                <View
-                  key={index}
-                  style={[
-                    styles.dot,
-                    bannerIndex === index && styles.dotActive
-                  ]}
-                />
-              ))}
+              {/* Dots Indicator */}
+              <View style={styles.dotsContainer}>
+                {banners.map((_, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      styles.dot,
+                      bannerIndex === index && styles.dotActive
+                    ]}
+                  />
+                ))}
+              </View>
             </View>
-          </View>
+          )}
 
           {/* FEATURED PRODUCTS */}
           <View style={styles.section}>
@@ -425,7 +438,13 @@ const HomeScreen = ({ navigation }) => {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.productsScroll}
             >
-              {featuredProducts.length > 0 ? (
+              {isInitialLoading ? (
+                <>
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                </>
+              ) : featuredProducts.length > 0 ? (
                 featuredProducts.map((product) => (
                   <TouchableOpacity
                     key={product._id}
@@ -471,7 +490,14 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
           </View>
           <View style={styles.categoriesSection}>
-            {categories.map((item) => (
+            {isInitialLoading ? (
+              <>
+                <CategorySkeleton />
+                <CategorySkeleton />
+                <CategorySkeleton />
+                <CategorySkeleton />
+              </>
+            ) : categories.map((item) => (
               <TouchableOpacity
                 key={item._id}
                 style={styles.categoryGraphic}

@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import api, { getImageUrl } from '../../services/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomHeader from '../../components/CustomHeader';
+import { BannerSkeleton } from '../../components/common/SkeletonLoader';
 
 const CategoryListScreen = ({ navigation, route }) => {
   const { parentCategoryId } = route.params || {};
@@ -57,9 +58,20 @@ const CategoryListScreen = ({ navigation, route }) => {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color="#4F46E5" />
-        </View>
+        <CustomHeader title="Loading..." showBack={true} />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <BannerSkeleton />
+          <View style={{ padding: 20 }}>
+            <View style={{ height: 20, width: '60%', backgroundColor: '#ECEFF1', borderRadius: 4, marginBottom: 12 }} />
+            <View style={{ height: 14, width: '90%', backgroundColor: '#ECEFF1', borderRadius: 4, marginBottom: 8 }} />
+            <View style={{ height: 14, width: '80%', backgroundColor: '#ECEFF1', borderRadius: 4, marginBottom: 8 }} />
+          </View>
+          <View style={{ paddingHorizontal: 20, gap: 12 }}>
+            {[1, 2, 3, 4].map(i => (
+              <View key={i} style={{ height: 60, width: '100%', backgroundColor: '#ECEFF1', borderRadius: 12 }} />
+            ))}
+          </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
