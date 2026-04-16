@@ -140,6 +140,34 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles['register-premium-container']}>
+      {/* 
+        // ==========================================
+        // ZENVY CUSTOM CHANGE: Navigation Fix - Register Back Button
+        // Description: Added a step-aware visual back button.
+        // If the user is on Step 2 or 3, it returns to the previous step.
+        // If on Step 1, it exits back to Onboarding.
+        // ==========================================
+      */}
+      <TouchableOpacity 
+        style={{
+          position: 'absolute',
+          top: Platform.OS === 'ios' ? 50 : 20,
+          left: 20,
+          zIndex: 10,
+          padding: 8,
+          backgroundColor: 'rgba(255,255,255,0.7)',
+          borderRadius: 20
+        }}
+        onPress={() => {
+          if (step > 1) {
+            setStep(step - 1);
+          } else {
+            navigation.goBack();
+          }
+        }}
+      >
+        <Icon name="chevron-back" size={28} color="#111827" />
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={styles['register-premium-scroll']} showsVerticalScrollIndicator={false}>
         <View style={styles['register-premium-header']}>
           <Text style={styles['register-premium-title']}>Join Us</Text>

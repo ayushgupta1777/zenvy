@@ -8,6 +8,7 @@ import { fetchProducts } from '../../redux/slices/productSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import api, { getImageUrl } from '../../services/api';
+import CustomHeader from '../../components/CustomHeader';
 
 const ProductListScreen = ({ route, navigation }) => {
   const {
@@ -149,16 +150,19 @@ const ProductListScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-back" size={24} color="#111827" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle} numberOfLines={1}>{headerTitle}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-          <Icon name="search-outline" size={24} color="#111827" />
-        </TouchableOpacity>
-      </View>
+      {/* 
+        // ==========================================
+        // ZENVY CUSTOM CHANGE: Navigation Fix - Standard Header
+        // Description: Replaced manual header with CustomHeader for 
+        // a unified production-standard experience. Added search 
+        // icon to the header as well.
+        // ==========================================
+      */}
+      <CustomHeader 
+        title={headerTitle} 
+        showBack={true} 
+        showSearch={true}
+      />
 
       {/* Search Bar */}
       <View style={styles.searchSection}>
