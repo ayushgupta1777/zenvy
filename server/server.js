@@ -81,20 +81,20 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/uploads', express.static('/root/uploads'));
-app.use('/uploads/temp', express.static('/root/uploads/temp'));
-app.use('/uploads/products', express.static('/root/uploads/products'));
-app.use('/uploads/banners', express.static('/root/uploads/banners'));
-app.use('/uploads/categories', express.static('/root/uploads/categories'));
-app.use('/uploads/logos', express.static('/root/uploads/logos'));
+app.use('/uploads', express.static('uploads'));
+app.use('/uploads/temp', express.static('uploads/temp'));
+app.use('/uploads/products', express.static('uploads/products'));
+app.use('/uploads/banners', express.static('uploads/banners'));
+app.use('/uploads/categories', express.static('uploads/categories'));
+app.use('/uploads/logos', express.static('uploads/logos'));
 
 // Support direct access (as seen in PM2 logs)
-app.use('/temp', express.static('/root/uploads/temp'));
-app.use('/products', express.static('/root/uploads/products'));
-app.use('/users', express.static('/root/uploads/users'));
-app.use('/banners', express.static('/root/uploads/banners'));
-app.use('/categories', express.static('/root/uploads/categories'));
-app.use('/logos', express.static('/root/uploads/logos'));
+app.use('/temp', express.static('uploads/temp'));
+app.use('/products', express.static('uploads/products'));
+app.use('/users', express.static('uploads/users'));
+app.use('/banners', express.static('uploads/banners'));
+app.use('/categories', express.static('uploads/categories'));
+app.use('/logos', express.static('uploads/logos'));
 
 // Deep Linking Verification
 app.use('/.well-known', express.static('.well-known', {

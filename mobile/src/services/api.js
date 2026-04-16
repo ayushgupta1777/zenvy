@@ -4,9 +4,11 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Base URL - Production Domain
-const API_BASE_URL = 'https://newrajfancystore.adsngrow.in/api';
-export const BASE_URL = 'https://newrajfancystore.adsngrow.in';
+import { API_BASE_URL as ENV_API_BASE_URL, BASE_URL as ENV_BASE_URL } from '@env';
+
+// Base URL - Environment Based
+const API_BASE_URL = ENV_API_BASE_URL || 'http://192.168.10.10:5000/api';
+export const BASE_URL = ENV_BASE_URL || 'http://192.168.10.10:5000';
 
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return null;

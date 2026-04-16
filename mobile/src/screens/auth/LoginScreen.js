@@ -20,6 +20,7 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import Icon from 'react-native-vector-icons/Ionicons';
 import { styles } from '../../styling/screens/auth/LoginScreenPremiumStyles';
 import AdsngrowFooter from '../../components/AdsngrowFooter';
+import { GOOGLE_WEB_CLIENT_ID } from '@env';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -30,8 +31,9 @@ const LoginScreen = ({ navigation }) => {
   const { isLoading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    // Configure Google Sign-In
     GoogleSignin.configure({
-      webClientId: '898387401992-2lohdfq6nabu10ak96c3ovis8uehres5.apps.googleusercontent.com', // User needs to replace this
+      webClientId: GOOGLE_WEB_CLIENT_ID, // Use environment variable
       offlineAccess: true,
     });
   }, []);

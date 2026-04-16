@@ -20,6 +20,8 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import Icon from 'react-native-vector-icons/Ionicons';
 import { styles } from '../../styling/screens/auth/RegisterScreenPremiumStyles';
 
+import { GOOGLE_WEB_CLIENT_ID } from '@env';
+
 const RegisterScreen = ({ navigation }) => {
   const [step, setStep] = useState(1); // 1: Google Auth, 2: Phone, 3: Password
   const [phone, setPhone] = useState('');
@@ -40,7 +42,7 @@ const RegisterScreen = ({ navigation }) => {
   useEffect(() => {
     // Configure Google Sign-In
     GoogleSignin.configure({
-      webClientId: '898387401992-2lohdfq6nabu10ak96c3ovis8uehres5.apps.googleusercontent.com', // User needs to replace this
+      webClientId: GOOGLE_WEB_CLIENT_ID, // Use environment variable
       offlineAccess: true,
     });
   }, []);

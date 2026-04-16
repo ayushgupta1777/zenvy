@@ -26,6 +26,11 @@ allprojects {
         google()
         mavenCentral()
     }
+    configurations.all {
+        resolutionStrategy {
+            force 'com.razorpay:standard-core:1.7.10'
+        }
+    }
 }
 
 apply plugin: "com.facebook.react.rootproject"
