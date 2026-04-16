@@ -1,0 +1,14 @@
+# ============================================
+# backend/.dockerignore
+# ============================================
+# Save this as: backend/.dockerignore
+
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+uploads/*
+!uploads/.gitkeep
+*.md
+.DS_Store

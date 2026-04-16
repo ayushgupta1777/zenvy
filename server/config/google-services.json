@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "583336034210",
+    "project_id": "otpsyso",
+    "storage_bucket": "otpsyso.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583336034210:android:bab29e5ef20ac0f91e7cfb",
+        "android_client_info": {
+          "package_name": "com.newrajfancystore.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-oD374oHUw-fEtHgThaNX4AuAFOuDmQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
