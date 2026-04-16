@@ -1,0 +1,132 @@
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:jar UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:jar UP-TO-DATE
+
+> Configure project :notifee_react-native
+:notifee_react-native @notifee/react-native found at C:\rnapp\mobile\node_modules\@notifee\react-native
+:notifee_react-native package.json found at C:\rnapp\mobile\node_modules\@notifee\react-native\package.json
+:notifee_react-native:version set from package.json: 9.1.8 (9,1,8 - 9001008)
+:notifee_react-native:android.compileSdk using custom value: 36
+:notifee_react-native:android.targetSdk using custom value: 36
+:notifee_react-native:android.minSdk using custom value: 24
+:notifee_react-native:reactNativeAndroidDir C:\rnapp\mobile\node_modules\react-native
+
+> Configure project :react-native-firebase_app
+:react-native-firebase_app package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:firebase.bom using default value: 34.6.0
+:react-native-firebase_app:play.play-services-auth using default value: 21.4.0
+:react-native-firebase_app package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:version set from package.json: 23.7.0 (23,7,0 - 23007000)
+:react-native-firebase_app:android.compileSdk using custom value: 36
+:react-native-firebase_app:android.targetSdk using custom value: 36
+:react-native-firebase_app:android.minSdk using custom value: 24
+:react-native-firebase_app:reactNativeAndroidDir C:\rnapp\mobile\node_modules\react-native
+
+> Configure project :react-native-firebase_auth
+:react-native-firebase_auth package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\auth\package.json
+:react-native-firebase_app package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_auth:firebase.bom using default value: 34.6.0
+:react-native-firebase_auth package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\auth\package.json
+:react-native-firebase_auth:version set from package.json: 23.7.0 (23,7,0 - 23007000)
+:react-native-firebase_auth:android.compileSdk using custom value: 36
+:react-native-firebase_auth:android.targetSdk using custom value: 36
+:react-native-firebase_auth:android.minSdk using custom value: 24
+:react-native-firebase_auth:reactNativeAndroidDir C:\rnapp\mobile\node_modules\react-native
+
+> Configure project :react-native-firebase_messaging
+:react-native-firebase_messaging package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\messaging\package.json
+:react-native-firebase_app package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_messaging:firebase.bom using default value: 34.6.0
+:react-native-firebase_messaging package.json found at C:\rnapp\mobile\node_modules\@react-native-firebase\messaging\package.json
+:react-native-firebase_messaging:version set from package.json: 23.7.0 (23,7,0 - 23007000)
+:react-native-firebase_messaging:android.compileSdk using custom value: 36
+:react-native-firebase_messaging:android.targetSdk using custom value: 36
+:react-native-firebase_messaging:android.minSdk using custom value: 24
+:react-native-firebase_messaging:reactNativeAndroidDir C:\rnapp\mobile\node_modules\react-native
+
+> Task :app:externalNativeBuildCleanDebug
+Clean react_codegen_RNCSlider-armeabi-v7a, react_codegen_RNVectorIconsSpec-armeabi-v7a, react_codegen_rnreanimated-armeabi-v7a, react_codegen_safeareacontext-armeabi-v7a, react_codegen_rngesturehandler_codegen-armeabi-v7a, react_codegen_RNImagePickerSpec-armeabi-v7a, react_codegen_rnscreens-armeabi-v7a, appmodules-armeabi-v7a, react_codegen_lottiereactnative-armeabi-v7a, react_codegen_rnworklets-armeabi-v7a, react_codegen_rnasyncstorage-armeabi-v7a, react_codegen_rnpicker-armeabi-v7a
+C/C++: CMake Error in CMakeLists.txt:
+C/C++:   Imported target "ReactAndroid::jsi" includes non-existent path
+C/C++:     "C:/Users/ag913/.gradle/caches/9.0.0/transforms/40320ec558490e5ea3771fd00733844e/transformed/react-android-0.82.1-debug/prefab/modules/jsi/include"
+C/C++:   in its INTERFACE_INCLUDE_DIRECTORIES.  Possible reasons include:
+C/C++:   * The path was deleted, renamed, or moved to another location.
+C/C++:   * An install or uninstall procedure did not complete successfully.
+C/C++:   * The installation package was faulty and references files it does not
+C/C++:   provide.
+C/C++: CMake Generate step failed.  Build files cannot be regenerated correctly.
+C/C++: ninja: error: rebuilding 'build.ninja': subcommand failed
+
+> Task :app:externalNativeBuildCleanDebug FAILED
+
+[Incubating] Problems report is available at: file:///C:/rnapp/mobile/android/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:externalNativeBuildCleanDebug'.
+> com.android.ide.common.process.ProcessException: ninja: Entering directory `C:\rnapp\mobile\android\app\.cxx\Debug\46331h2i\armeabi-v7a'
+  [0/2] Re-checking globbed directories...
+  [1/2] Re-running CMake...
+  -- Configuring done
+  -- Generating done
+  FAILED: build.ninja 
+  C:\Users\ag913\AppData\Local\Android\Sdk\cmake\3.22.1\bin\cmake.exe --regenerate-during-build -SC:\rnapp\mobile\node_modules\react-native\ReactAndroid\cmake-utils\default-app-setup -BC:\rnapp\mobile\android\app\.cxx\Debug\46331h2i\armeabi-v7a
+  
+  C++ build system [clean] failed while executing:
+      @echo off
+      "C:\\Users\\ag913\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+        -C ^
+        "C:\\rnapp\\mobile\\android\\app\\.cxx\\Debug\\46331h2i\\armeabi-v7a" ^
+        clean
+    from C:\rnapp\mobile\android\app
+  CMake Error in CMakeLists.txt:
+    Imported target "ReactAndroid::jsi" includes non-existent path
+  
+      "C:/Users/ag913/.gradle/caches/9.0.0/transforms/40320ec558490e5ea3771fd00733844e/transformed/react-android-0.82.1-debug/prefab/modules/jsi/include"
+  
+    in its INTERFACE_INCLUDE_DIRECTORIES.  Possible reasons include:
+  
+    * The path was deleted, renamed, or moved to another location.
+  
+
+    * An install or uninstall procedure did not complete successfully.
+  
+    * The installation package was faulty and references files it does not
+    provide.
+  
+  
+  
+  CMake Generate step failed.  Build files cannot be regenerated correctly.
+  ninja: error: rebuilding 'build.ninja': subcommand failed
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 19s
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.0.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+11 actionable tasks: 1 executed, 10 up-to-date

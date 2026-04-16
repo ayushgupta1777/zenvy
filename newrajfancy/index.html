@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Raj Fancy - Exclusive Jewelry & More</title>
+    <meta name="description" content="Download the New Raj Fancy Android app. Shop exclusive jewelry, become a vendor, or earn as a reseller.">
+    <style>
+        :root {
+            --primary: #d4af37; /* Gold */
+            --primary-hover: #c5a028;
+            --bg-cream: #fff9e5;
+            --text-dark: #1a1a1a;
+            --text-muted: #555555;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f2d06b 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--white);
+            padding: 4rem;
+            border-radius: 2.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .logo-container {
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            padding: 5px;
+            background: #000;
+        }
+
+        .brand-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        p.description {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .features {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .feature-card {
+            flex: 1;
+            padding: 1.5rem;
+            background: var(--bg-cream);
+            border-radius: 1.25rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card span {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .cta-section {
+            margin-top: 2rem;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.25rem 2.5rem;
+            border-radius: 100px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .download-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .instructions {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
+        }
+
+        .mockup-container {
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .mockup-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            transition: transform 0.5s ease;
+        }
+
+        .mockup-container:hover .mockup-img {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 3rem;
+                text-align: center;
+            }
+            .content {
+                align-items: center;
+            }
+            .features {
+                width: 100%;
+            }
+            p.description {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .features {
+                flex-direction: column;
+            }
+            .download-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="logo-container">
+                <img src="Logo_NRF.png" alt="NRF Logo" class="logo">
+                <div class="brand-name">New Raj Fancy</div>
+            </div>
+            
+            <h1>Welcome to Your New Raj Fancy</h1>
+            <p class="description">Shop exclusive jewelry, become a vendor, or earn as a reseller. Your premium destination for exquisite collection.</p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <span>✨ Shop Premium</span>
+                </div>
+                <div class="feature-card">
+                    <span>🏪 Sell Products</span>
+                </div>
+                <div class="feature-card">
+                    <span>💰 Earn Money</span>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <a href="shop.apk" download="shop.apk" class="download-btn">
+                    Download App for Android
+                </a>
+            </div>
+
+            <div class="instructions">
+                <p><strong>Note:</strong> To install, enable "Install Unknown Apps" in your security settings after downloading.</p>
+            </div>
+        </div>
+
+        <div class="mockup-container">
+            <!-- Using the jewelry store mockup image as requested -->
+            <img src="jewelry_store_mockup.png" alt="Jewelry Store App Mockup" class="mockup-img">
+        </div>
+    </div>
+</body>
+</html>

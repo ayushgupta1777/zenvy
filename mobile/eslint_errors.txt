@@ -1,0 +1,66 @@
+
+C:\rnapp\mobile\src\redux\slices\authSlice.js
+  142:16  error  'verifyOTP' is not defined  no-undef
+  146:16  error  'verifyOTP' is not defined  no-undef
+  154:16  error  'verifyOTP' is not defined  no-undef
+
+C:\rnapp\mobile\src\screens\auth\LoginScreen.js
+   43:6    error    React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array                   react-hooks/exhaustive-deps
+  116:72   warning  Inline style: { padding: 10 }                                                                                                 react-native/no-inline-styles
+  117:28   warning  Inline style: { color: '#5E5CE6', fontSize: 12, fontWeight: '600' }                                                           react-native/no-inline-styles
+  129:79   warning  Inline style: { color: '#9CA3AF' }                                                                                            react-native/no-inline-styles
+  258:24   warning  Inline style: {
+  flexDirection: 'row',
+  marginBottom: 25,
+  backgroundColor: '#F3F4F6',
+  borderRadius: 12,
+  padding: 4
+}  react-native/no-inline-styles
+  261:23   warning  Inline style: {
+  flex: 1,
+  paddingVertical: 10,
+  alignItems: 'center',
+  borderRadius: 10
+}                                react-native/no-inline-styles
+  261:120  warning  Inline style: {
+  backgroundColor: '#fff',
+  elevation: 2,
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowRadius: 2
+}   react-native/no-inline-styles
+  263:29   warning  Inline style: { fontSize: 14, fontWeight: '600', color: '#6B7280' }                                                           react-native/no-inline-styles
+  263:107  warning  Inline style: { color: '#5E5CE6' }                                                                                            react-native/no-inline-styles
+  267:23   warning  Inline style: {
+  flex: 1,
+  paddingVertical: 10,
+  alignItems: 'center',
+  borderRadius: 10
+}                                react-native/no-inline-styles
+  267:125  warning  Inline style: {
+  backgroundColor: '#fff',
+  elevation: 2,
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowRadius: 2
+}   react-native/no-inline-styles
+  269:29   warning  Inline style: { fontSize: 14, fontWeight: '600', color: '#6B7280' }                                                           react-native/no-inline-styles
+  269:112  warning  Inline style: { color: '#5E5CE6' }                                                                                            react-native/no-inline-styles
+
+C:\rnapp\mobile\src\screens\auth\RegisterScreen.js
+   47:6    error    React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  136:18   warning  Inline style: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  marginBottom: 30,
+  gap: 10
+}          react-native/no-inline-styles
+  138:31   warning  Inline style: { width: 30, height: 4, borderRadius: 2, backgroundColor: '#E5E7EB' }                          react-native/no-inline-styles
+  138:115  warning  Inline style: { backgroundColor: '#5E5CE6' }                                                                 react-native/no-inline-styles
+  184:30   warning  Inline style: { flexDirection: 'row', justifyContent: 'space-between' }                                      react-native/no-inline-styles
+  187:34   warning  Inline style: { color: "timer > 0 ? '#9CA3AF' : '#5E5CE6'", fontSize: 12 }                                   react-native/no-inline-styles
+  211:67   warning  Inline style: { alignItems: 'center', marginTop: 15 }                                                        react-native/no-inline-styles
+  212:30   warning  Inline style: { color: '#6B7280' }                                                                           react-native/no-inline-styles
+
+Γ£û 24 problems (5 errors, 19 warnings)
+
