@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, Alert, Modal, TextInput, ActivityIndicator
+  StyleSheet, Alert, Modal, TextInput, ActivityIndicator, Platform
 } from 'react-native';
+import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
+import Geolocation from 'react-native-geolocation-service';
+import { PermissionsAndroid } from 'react-native';
 
 const AddressesScreen = ({ navigation, route }) => {
   const fromCheckout = route.params?.fromCheckout;
@@ -12,6 +15,7 @@ const AddressesScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
+  const [isLookupLoading, setIsLookupLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -99,6 +103,110 @@ const AddressesScreen = ({ navigation, route }) => {
       return false;
     }
     return true;
+  };
+
+  // ==========================================
+  // ZENVY CUSTOM CHANGE: Smart Address Feature - Pincode Lookup
+  // Description: Automatically fetches City and State based on Pincode.
+  // ==========================================
+  const fetchAddressFromPincode = async (pincode) => {
+    if (pincode.length !== 6) return;
+    
+    try {
+      setIsLookupLoading(true);
+      const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
+      
+      const data = response.data[0];
+      if (data.Status === "Success" && data.PostOffice && data.PostOffice.length > 0) {
+        const info = data.PostOffice[0];
+        setFormData(prev => ({
+          ...prev,
+          city: info.District || info.Block,
+          state: info.State
+        }));
+      }
+    } catch (error) {
+      console.warn("Pincode lookup failed", error);
+    } finally {
+      setIsLookupLoading(false);
+    }
+  };
+
+  const handlePincodeChange = (text) => {
+    const numericText = text.replace(/[^0-9]/g, '');
+    setFormData({ ...formData, pincode: numericText });
+    
+    if (numericText.length === 6) {
+      fetchAddressFromPincode(numericText);
+    }
+  };
+
+  // ==========================================
+  // ZENVY CUSTOM CHANGE: Smart Address Feature - Geolocation
+  // Description: Fetches user's current GPS location and 
+  // reverse-geocodes it into the form fields.
+  // ==========================================
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      const auth = await Geolocation.requestAuthorization('whenInUse');
+      return auth === 'granted';
+    }
+
+    if (Platform.OS === 'android') {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message: 'Zenvy needs access to your location to autofill your address.',
+          buttonPositive: 'OK',
+        }
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    }
+    return false;
+  };
+
+  const handleUseCurrentLocation = async () => {
+    const hasPermission = await requestLocationPermission();
+    if (!hasPermission) {
+      Alert.alert('Permission Denied', 'Please enable location permissions to use this feature.');
+      return;
+    }
+
+    try {
+      setIsLookupLoading(true);
+      Geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          // Using OpenStreetMap Nominatim for free reverse geocoding
+          const response = await axios.get(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          
+          const address = response.data.address;
+          if (address) {
+            setFormData(prev => ({
+              ...prev,
+              pincode: address.postcode || prev.pincode,
+              city: address.city || address.town || address.village || address.suburb || prev.city,
+              state: address.state || prev.state,
+              addressLine1: `${address.road || ''} ${address.neighbourhood || ''}`.trim() || prev.addressLine1,
+            }));
+            Alert.alert('Location Found', 'Your address has been auto-filled.');
+          }
+          setIsLookupLoading(false);
+        },
+        (error) => {
+          console.error(error);
+          Alert.alert('Error', 'Could not fetch your current location.');
+          setIsLookupLoading(false);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    } catch (error) {
+      console.error(error);
+      setIsLookupLoading(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -291,7 +399,26 @@ const AddressesScreen = ({ navigation, route }) => {
               </TouchableOpacity>
             </View>
 
-            <ScrollView style={styles.modalBody}>
+            <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
+              
+              {/* 
+                // ==========================================
+                // ZENVY CUSTOM CHANGE: Location Button
+                // Description: Added a premium button to fetch current
+                // GPS location and auto-fill address fields.
+                // ==========================================
+              */}
+              <TouchableOpacity 
+                style={styles.locationBtn} 
+                onPress={handleUseCurrentLocation}
+                disabled={isLookupLoading}
+              >
+                <Icon name="location-outline" size={20} color="#4F46E5" />
+                <Text style={styles.locationBtnText}>
+                  {isLookupLoading ? 'Fetching Location...' : 'Use Current Location'}
+                </Text>
+              </TouchableOpacity>
+
               <View style={styles.formGroup}>
                 <Text style={styles.label}>Full Name *</Text>
                 <TextInput
@@ -348,12 +475,17 @@ const AddressesScreen = ({ navigation, route }) => {
                 <View style={{ width: 12 }} />
 
                 <View style={[styles.formGroup, { flex: 1 }]}>
-                  <Text style={styles.label}>Pincode *</Text>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={styles.label}>Pincode *</Text>
+                    {isLookupLoading && (
+                      <ActivityIndicator size="small" color="#4F46E5" />
+                    )}
+                  </View>
                   <TextInput
                     style={styles.input}
                     placeholder="6 digits"
                     value={formData.pincode}
-                    onChangeText={(text) => setFormData({ ...formData, pincode: text })}
+                    onChangeText={handlePincodeChange}
                     keyboardType="numeric"
                     maxLength={6}
                   />
@@ -665,6 +797,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#fff'
+  },
+  // ZENVY CUSTOM CHANGE: Smart Entry Styles
+  locationBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#EEF2FF',
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#C7D2FE',
+    gap: 8,
+  },
+  locationBtnText: {
+    color: '#4F46E5',
+    fontWeight: '600',
+    fontSize: 14,
   },
   fab: {
     position: 'absolute',
