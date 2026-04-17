@@ -351,10 +351,18 @@ const getTabBarVisibility = (route) => {
     'Payment', 
     'PaymentGateway', 
     'OrderSuccess', 
-    'Addresses', 
     'ProductDetails',
     'OrderTracking'
   ];
+
+  // ==========================================
+  // ZENVY CUSTOM CHANGE: Context-Aware Tab Hiding
+  // Description: Only hide tab bar on Addresses if we are 
+  // NOT in the Profile tab. This prevents getting "trapped".
+  // ==========================================
+  if (routeName === 'Addresses' && route.name !== 'Profile') {
+    return 'none';
+  }
   
   if (hideOnScreens.includes(routeName)) {
     return 'none';
@@ -460,6 +468,14 @@ const MainNavigator = () => {
             title: 'Shop',
             tabBarStyle: { display: getTabBarVisibility(route) }
           })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              // Prevent default action
+              e.preventDefault();
+              // Navigate directly to the Home stack root
+              navigation.navigate('Home', { screen: 'Home' });
+            },
+          })}
         />
 
         {/* RESELLER HUB - Always visible, most prominent */}
@@ -471,6 +487,12 @@ const MainNavigator = () => {
             tabBarLabel: 'Earn',
             tabBarStyle: { display: getTabBarVisibility(route) }
           })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate('ResellerHub', { screen: 'ResellerHubMain' });
+            },
+          })}
         />
 
         <Tab.Screen 
@@ -479,6 +501,12 @@ const MainNavigator = () => {
           options={({ route }) => ({
             tabBarStyle: { display: getTabBarVisibility(route) }
           })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate('Cart', { screen: 'CartMain' });
+            },
+          })}
         />
         <Tab.Screen 
           name="Orders" 
@@ -486,12 +514,29 @@ const MainNavigator = () => {
           options={({ route }) => ({
             tabBarStyle: { display: getTabBarVisibility(route) }
           })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate('Orders', { screen: 'OrdersList' });
+            },
+          })}
         />
         <Tab.Screen 
           name="Profile" 
           component={ProfileStack} 
           options={({ route }) => ({
             tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              // ==========================================
+              // ZENVY CUSTOM CHANGE: Navigation Reset Fix
+              // Description: Ensures clicking the Profile tab always 
+              // lands on the main Profile screen, not a sub-screen.
+              // ==========================================
+              navigation.navigate('Profile', { screen: 'ProfileMain' });
+            },
           })}
         />
       </Tab.Navigator>
