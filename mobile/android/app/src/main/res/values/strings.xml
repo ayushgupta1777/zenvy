@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">New Raj Fancy</string>
+    <string name="CodePushDeploymentKey">REPLACE_WITH_YOUR_ANDROID_DEPLOYMENT_KEY</string>
 </resources>
