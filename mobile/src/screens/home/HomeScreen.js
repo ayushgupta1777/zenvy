@@ -12,6 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const { width } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
+  console.log(' HomeScreen Rendering...');
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { items: products } = useSelector((state) => state.products);
@@ -27,7 +29,10 @@ const HomeScreen = ({ navigation }) => {
 
   const scrollRef = useRef(null);
 
+
+
   const drawerAnim = useRef(new Animated.Value(-300)).current;
+  
 
   // Animation values
   const headerAnim = useRef(new Animated.Value(0)).current;
@@ -36,6 +41,7 @@ const HomeScreen = ({ navigation }) => {
 
   // Fetch data on mount
   useEffect(() => {
+    console.log('HomeScreen Page Mounted Reloaded'); 
     dispatch(fetchProducts());
     fetchBanners();
     fetchCategories();
