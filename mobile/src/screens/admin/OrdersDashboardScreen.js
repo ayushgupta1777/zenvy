@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
+import FABIcon from '../../components/common/FABIcon';
 
 const OrdersDashboardScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
@@ -287,12 +288,7 @@ const OrdersDashboardScreen = ({ navigation }) => {
       </ScrollView>
 
       {/* Support FAB */}
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('Support')}
-      >
-        <Icon name="chatbubbles" size={24} color="#fff" />
-      </TouchableOpacity>
+      <FABIcon iconName="chatbubbles" onPress={() => navigation.navigate('Support')} />
     </View>
   );
 };
