@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import api, { getImageUrl } from '../../services/api';
 import CustomHeader from '../../components/CustomHeader';
+import { ProductCardSkeleton } from '../../components/common/SkeletonLoader';
 
 const ProductListScreen = ({ route, navigation }) => {
   const {
@@ -237,9 +238,7 @@ const ProductListScreen = ({ route, navigation }) => {
 
       {/* Products Grid */}
       {isLoading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#4F46E5" />
-        </View>
+        renderLoader()
       ) : products.length === 0 ? (
         <View style={styles.emptyState}>
           <Icon name="search-outline" size={56} color="#9CA3AF" />
@@ -256,9 +255,6 @@ const ProductListScreen = ({ route, navigation }) => {
           numColumns={2}
           contentContainerStyle={styles.gridContainer}
           columnWrapperStyle={styles.gridWrapper}
-          ListHeaderComponent={
-            <View style={{ backgroundColor: '#fff', height: 1000, position: 'absolute', top: -1000, left: 0, right: 0 }} />
-          }
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
