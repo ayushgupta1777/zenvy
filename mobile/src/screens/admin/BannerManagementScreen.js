@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { launchImageLibrary } from 'react-native-image-picker';
 
 import api, { getImageUrl } from '../../services/api';
+import FABIcon from '../../components/common/FABIcon';
 
 const BannerManagementScreen = ({ navigation }) => {
   const [banners, setBanners] = useState([]);
@@ -375,9 +376,7 @@ const BannerManagementScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.fab} onPress={openAddModal}>
-        <Icon name="add" size={28} color="#fff" />
-      </TouchableOpacity>
+      <FABIcon iconName="add" onPress={openAddModal} />
     </View>
   );
 };

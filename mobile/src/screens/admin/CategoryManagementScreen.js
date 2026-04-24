@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { launchImageLibrary } from 'react-native-image-picker';
 
 import api, { getImageUrl } from '../../services/api';
+import FABIcon from '../../components/common/FABIcon';
 
 const CategoryManagementScreen = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
@@ -439,9 +440,7 @@ const CategoryManagementScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.fab} onPress={openAddRootCategoryModal} activeOpacity={0.8}>
-        <Icon name="add" size={28} color="#fff" />
-      </TouchableOpacity>
+      <FABIcon iconName="add" onPress={openAddRootCategoryModal} />
     </View>
   );
 };

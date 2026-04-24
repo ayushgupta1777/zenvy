@@ -7,7 +7,8 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
 import Geolocation from 'react-native-geolocation-service';
-import { PermissionsAndroid } from 'react-native';
+import { requestLocationPermission } from '../../services/native/location/Location.Permission';
+import FABIcon from '../../components/common/FABIcon';
 
 const AddressesScreen = ({ navigation, route }) => {
   const fromCheckout = route.params?.fromCheckout;
@@ -146,25 +147,7 @@ const AddressesScreen = ({ navigation, route }) => {
   // Description: Fetches user's current GPS location and 
   // reverse-geocodes it into the form fields.
   // ==========================================
-  const requestLocationPermission = async () => {
-    if (Platform.OS === 'ios') {
-      const auth = await Geolocation.requestAuthorization('whenInUse');
-      return auth === 'granted';
-    }
 
-    if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Location Permission',
-          message: 'Zenvy needs access to your location to autofill your address.',
-          buttonPositive: 'OK',
-        }
-      );
-      return granted === PermissionsAndroid.RESULTS.GRANTED;
-    }
-    return false;
-  };
 
   const handleUseCurrentLocation = async () => {
     const hasPermission = await requestLocationPermission();
@@ -559,9 +542,7 @@ const AddressesScreen = ({ navigation, route }) => {
 
       {/* FAB */}
       {addresses.length > 0 && (
-        <TouchableOpacity style={styles.fab} onPress={openAddModal}>
-          <Icon name="add" size={28} color="#fff" />
-        </TouchableOpacity>
+        <FABIcon iconName="add" onPress={openAddModal} />
       )}
     </View>
   );

@@ -6,6 +6,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api, { getImageUrl } from '../../services/api';
+import FABIcon from '../../components/common/FABIcon';
 
 const AdminProductManagementScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
@@ -490,13 +491,7 @@ const AdminProductManagementScreen = ({ navigation }) => {
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 20 }}
       />
 
-      {/* FAB */}
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('AddProduct')}
-      >
-        <Icon name="add" size={28} color="#fff" />
-      </TouchableOpacity>
+      <FABIcon iconName="add" onPress={() => navigation.navigate('AddProduct')} />
     </View>
   );
 };

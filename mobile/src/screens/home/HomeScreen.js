@@ -13,7 +13,7 @@ import { BannerSkeleton, CategorySkeleton, ProductCardSkeleton } from '../../com
 const { width } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
-  console.log(' HomeScreen Rendering...');
+
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -41,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
   const slideAnim = useRef(new Animated.Value(50)).current;
 
   useEffect(() => {
-    console.log('HomeScreen Page Mounted Reloaded'); 
+
     dispatch(fetchProducts());
 
     // Start animations
@@ -131,6 +131,11 @@ const HomeScreen = ({ navigation }) => {
       return () => clearInterval(interval);
     }
   }, [banners, bannerIndex]);
+  
+  const handleBannerScroll = (e) => {
+    const index = Math.round(e.nativeEvent.contentOffset.x / width);
+    setBannerIndex(index);
+  };
   // Banners (Admin can change these)
   // const banners = [
   //   { id: 1, image: 'https://example.com/banner1.jpg', title: 'Welcome to Pyrite Fashion' },
@@ -334,7 +339,7 @@ const HomeScreen = ({ navigation }) => {
                   />
                 </View>
                 <View style={styles.logoTextContainer}>
-                  <Text style={styles.brandName}>New Raj Fancy</Text>
+                  <Text style={styles.brandName}>Zenvy</Text>
                   <Text style={styles.brandTagline}>NRF - Premium Jewelry</Text>
                 </View>
               </TouchableOpacity>
@@ -395,10 +400,7 @@ const HomeScreen = ({ navigation }) => {
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                onMomentumScrollEnd={(e) => {
-                  const index = Math.round(e.nativeEvent.contentOffset.x / width);
-                  setBannerIndex(index);
-                }}
+                onMomentumScrollEnd={handleBannerScroll}
               >
                 {banners.map((banner) => (
                   <TouchableOpacity
