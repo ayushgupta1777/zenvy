@@ -6,7 +6,8 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
 
-const AddressesScreen = ({ navigation }) => {
+const AddressesScreen = ({ navigation, route }) => {
+  const fromCheckout = route.params?.fromCheckout;
   const [addresses, setAddresses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -114,6 +115,15 @@ const AddressesScreen = ({ navigation }) => {
       
       setShowModal(false);
       fetchAddresses();
+
+      // ==========================================
+      // ZENVY CUSTOM CHANGE: Navigation Fix - Return to Checkout
+      // Description: If user added a new address while in the checkout flow,
+      // after successful save, we automatically take them back to Checkout.
+      // ==========================================
+      if (fromCheckout && !editingAddress) {
+        navigation.navigate('Cart', { screen: 'Checkout' });
+      }
     } catch (error) {
       Alert.alert('Error', error.response?.data?.message || 'Failed to save address');
     }
@@ -172,7 +182,20 @@ const AddressesScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity 
+          onPress={() => {
+            // ==========================================
+            // ZENVY CUSTOM CHANGE: Navigation Fix - Smart Back
+            // Description: If user is adding an address from Checkout, 
+            // going back should return to Checkout, not Profile.
+            // ==========================================
+            if (fromCheckout) {
+              navigation.navigate('Cart', { screen: 'Checkout' });
+            } else {
+              navigation.goBack();
+            }
+          }}
+        >
           <Icon name="chevron-back" size={24} color="#111827" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Addresses</Text>

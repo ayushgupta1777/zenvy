@@ -6,6 +6,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api, { getImageUrl } from '../../services/api';
+import CustomHeader from '../../components/CustomHeader';
 
 const { width } = Dimensions.get('window');
 
@@ -90,17 +91,17 @@ const SubcategoryListScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <Icon name="arrow-back" size={24} color="#1F2937" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{categoryName}</Text>
-        <View style={styles.headerRight} />
-      </View>
+      {/* 
+        // ==========================================
+        // ZENVY CUSTOM CHANGE: Navigation Fix - Standard Header
+        // Description: Replaced manual header with CustomHeader for 
+        // a unified production-standard experience across categories.
+        // ==========================================
+      */}
+      <CustomHeader 
+        title={categoryName || 'Collection'} 
+        showBack={true} 
+      />
 
       {/* Subcategories List */}
       {subcategories.length > 0 ? (

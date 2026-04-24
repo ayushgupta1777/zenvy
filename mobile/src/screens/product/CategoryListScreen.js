@@ -6,6 +6,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import api, { getImageUrl } from '../../services/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CustomHeader from '../../components/CustomHeader';
 
 const CategoryListScreen = ({ navigation, route }) => {
   const { parentCategoryId } = route.params || {};
@@ -65,13 +66,17 @@ const CategoryListScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-back" size={24} color="#111827" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{category?.name}</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* 
+        // ==========================================
+        // ZENVY CUSTOM CHANGE: Navigation Fix - Standard Header
+        // Description: Replaced manual header with CustomHeader for 
+        // a unified production-standard experience.
+        // ==========================================
+      */}
+      <CustomHeader 
+        title={category?.name || 'Category'} 
+        showBack={true} 
+      />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Category Banner */}

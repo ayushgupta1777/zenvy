@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
+import CustomHeader from '../../components/CustomHeader';
 
 const NotificationsScreen = ({ navigation }) => {
   const [notifications, setNotifications] = useState([]);
@@ -135,18 +136,24 @@ const NotificationsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-back" size={24} color="#111827" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Notifications</Text>
-        {unreadCount > 0 && (
-          <TouchableOpacity onPress={markAllAsRead}>
-            <Text style={styles.markAllBtn}>Mark all read</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      {/* 
+        // ==========================================
+        // ZENVY CUSTOM CHANGE: Navigation Fix - Standard Header
+        // Description: Replaced manual header with CustomHeader, 
+        // passing the 'Mark all read' function as a rightComponent.
+        // ==========================================
+      */}
+      <CustomHeader 
+        title="Notifications" 
+        showBack={true}
+        rightComponent={
+          unreadCount > 0 ? (
+            <TouchableOpacity onPress={markAllAsRead} style={{ justifyContent: 'center' }}>
+              <Text style={styles.markAllBtn}>Mark all</Text>
+            </TouchableOpacity>
+          ) : null
+        }
+      />
 
       {/* Unread Count Badge */}
       {unreadCount > 0 && (

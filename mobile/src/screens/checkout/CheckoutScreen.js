@@ -16,6 +16,7 @@ import { createOrder } from '../../redux/slices/orderSlice';
 import { fetchCart, updateCartItem } from '../../redux/slices/cartSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api, { getImageUrl } from '../../services/api';
+import CustomHeader from '../../components/CustomHeader';
 
 const CheckoutScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -277,14 +278,21 @@ const CheckoutScreen = ({ navigation }) => {
   };
 
   const handleAddNewAddress = () => {
+    // ==========================================
+    // ZENVY CUSTOM CHANGE: Navigation Fix - Address Loop
+    // Description: Passing fromCheckout: true so the Addresses screen
+    // knows to navigate back here instead of the Profile tab.
+    // ==========================================
     navigation.navigate('Profile', {
-      screen: 'Addresses'
+      screen: 'Addresses',
+      params: { fromCheckout: true }
     });
   };
 
   const handleEditAddress = (address) => {
     navigation.navigate('Profile', {
-      screen: 'Addresses'
+      screen: 'Addresses',
+      params: { fromCheckout: true }
     });
   };
 
@@ -307,6 +315,19 @@ const CheckoutScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* 
+        // ==========================================
+        // ZENVY CUSTOM CHANGE: Navigation Fix - Standard Header
+        // Description: Added CustomHeader to provide a standard Back 
+        // experience from Checkout back to the Cart.
+        // ==========================================
+      */}
+      <CustomHeader 
+        title="Checkout" 
+        showBack={!isProcessing} 
+        backgroundColor="#fff"
+      />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}

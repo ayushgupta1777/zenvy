@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   
   'register-premium-header': {
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
+    paddingTop: Platform.OS === 'ios' ? 110 : 80,
     paddingHorizontal: 24,
     paddingBottom: 32,
   },

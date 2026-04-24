@@ -79,6 +79,27 @@ const LoginScreen = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles['login-premium-container']}
     >
+      {/* 
+        // ==========================================
+        // ZENVY CUSTOM CHANGE: Navigation Fix - Login Back Button
+        // Description: Added a visual back button for users to exit
+        // the login screen properly if they entered by mistake.
+        // ==========================================
+      */}
+      <TouchableOpacity 
+        style={{
+          position: 'absolute',
+          top: Platform.OS === 'ios' ? 50 : 20,
+          left: 20,
+          zIndex: 10,
+          padding: 8,
+          backgroundColor: 'rgba(255,255,255,0.7)',
+          borderRadius: 20
+        }}
+        onPress={() => navigation.goBack()}
+      >
+        <Icon name="chevron-back" size={28} color="#111827" />
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={styles['login-premium-scroll']} showsVerticalScrollIndicator={false}>
         <View style={styles['login-premium-header']}>
           <View style={styles['login-premium-logo-container']}>
