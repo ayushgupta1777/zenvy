@@ -196,4 +196,4 @@ export const styles = StyleSheet.create({
     color: '#0A84FF',
     fontWeight: '700',
   },
-});
+  " register-premium-back-button\: { position: \absolute\, top: Platform.OS === \ios\ ? 50 : 20, left: 20, zIndex: 10, padding: 8, backgroundColor: \rgba 255 255 255 0.7 \, borderRadius: 20 },\n});

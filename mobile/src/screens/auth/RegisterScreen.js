@@ -1,130 +1,19 @@
-// ============================================
-// mobile/src/screens/auth/RegisterScreen.js
-// ============================================
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  BackHandler
+  View, Text, TextInput, TouchableOpacity,
+  ActivityIndicator, KeyboardAvoidingView,
+  Platform, ScrollView
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { register, clearError } from '../../redux/slices/authSlice';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { styles } from '../../styling/screens/auth/RegisterScreenPremiumStyles';
-
-import { GOOGLE_WEB_CLIENT_ID } from '@env';
+import useRegister from '../../hooks/useRegister';
 
 const RegisterScreen = ({ navigation }) => {
-  const [step, setStep] = useState(1); // 1: Google Auth, 2: Phone, 3: Password
-  const [phone, setPhone] = useState('');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    googleId: '',
-    profileImage: '',
-    password: '',
-    confirmPassword: '',
-    role: 'customer'
-  });
-  const [showPassword, setShowPassword] = useState(false);
-
-  const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    // Configure Google Sign-In
-    GoogleSignin.configure({
-      webClientId: GOOGLE_WEB_CLIENT_ID, // Use environment variable
-      offlineAccess: true,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (error) {
-      Alert.alert('Registration Error', error);
-      dispatch(clearError());
-    }
-  }, [error]);
-
-  useEffect(() => {
-    const backAction = () => {
-      if (step > 1 && step <= 3) {
-        setStep(step - 1);
-        return true;
-      }
-      return false;
-    };
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-    return () => backHandler.remove();
-  }, [step]);
-
-  const handleGoogleSignIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const response = await GoogleSignin.signIn();
-      const userInfo = response.data ? response.data : response; // Handle different package versions
-      const user = userInfo.user || userInfo;
-
-      setFormData(prev => ({
-        ...prev,
-        email: user.email || '',
-        name: user.name || '',
-        googleId: user.id || '',
-        profileImage: user.photo || ''
-      }));
-      setStep(2);
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        Alert.alert('Error', 'Play services not available or outdated');
-      } else {
-        Alert.alert('Google Sign-In Error', error.message || 'Something went wrong');
-      }
-    }
-  };
-
-  const validatePhoneAndContinue = () => {
-    if (!phone || phone.length < 10) {
-      Alert.alert('Error', 'Please enter a valid phone number');
-      return;
-    }
-    setStep(3);
-  };
-
-  const handleRegister = () => {
-    const { name, email, googleId, profileImage, password, confirmPassword, role } = formData;
-
-    if (!password) {
-      Alert.alert('Error', 'Password is required');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
-    }
-
-    dispatch(register({
-      name,
-      email,
-      googleId,
-      profileImage,
-      phone,
-      password,
-      role
-    }));
-  };
+  const {
+    step, setStep, phone, setPhone, formData, setFormData,
+    showPassword, setShowPassword, isLoading,
+    handleGoogleSignIn, handleRegister
+  } = useRegister(navigation);
 
   const updateFormData = (field, value) => {
     setFormData({ ...formData, [field]: value });
@@ -140,34 +29,13 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles['register-premium-container']}>
-      {/* 
-        // ==========================================
-        // ZENVY CUSTOM CHANGE: Navigation Fix - Register Back Button
-        // Description: Added a step-aware visual back button.
-        // If the user is on Step 2 or 3, it returns to the previous step.
-        // If on Step 1, it exits back to Onboarding.
-        // ==========================================
-      */}
       <TouchableOpacity 
-        style={{
-          position: 'absolute',
-          top: Platform.OS === 'ios' ? 50 : 20,
-          left: 20,
-          zIndex: 10,
-          padding: 8,
-          backgroundColor: 'rgba(255,255,255,0.7)',
-          borderRadius: 20
-        }}
-        onPress={() => {
-          if (step > 1) {
-            setStep(step - 1);
-          } else {
-            navigation.goBack();
-          }
-        }}
+        style={styles['register-premium-back-button']}
+        onPress={() => step > 1 ? setStep(step - 1) : navigation.goBack()}
       >
         <Icon name="chevron-back" size={28} color="#111827" />
       </TouchableOpacity>
+
       <ScrollView contentContainerStyle={styles['register-premium-scroll']} showsVerticalScrollIndicator={false}>
         <View style={styles['register-premium-header']}>
           <Text style={styles['register-premium-title']}>Join Us</Text>
@@ -184,7 +52,6 @@ const RegisterScreen = ({ navigation }) => {
               <Text style={{ textAlign: 'center', marginBottom: 20, color: '#6B7280' }}>
                 Quickly sign up using your Google account. Your email will be automatically verified.
               </Text>
-
               <TouchableOpacity style={[styles['register-premium-button'], { backgroundColor: '#4285F4' }]} onPress={handleGoogleSignIn}>
                 <Icon name="logo-google" size={20} color="#fff" style={{ marginRight: 10 }} />
                 <Text style={styles['register-premium-button-text']}>Continue with Google</Text>
@@ -209,7 +76,7 @@ const RegisterScreen = ({ navigation }) => {
                   />
                 </View>
               </View>
-              <TouchableOpacity style={styles['register-premium-button']} onPress={validatePhoneAndContinue}>
+              <TouchableOpacity style={styles['register-premium-button']} onPress={() => phone.length >= 10 ? setStep(3) : Alert.alert('Error', 'Invalid phone')}>
                 <Text style={styles['register-premium-button-text']}>Continue</Text>
                 <Icon name="arrow-forward" size={20} color="#fff" />
               </TouchableOpacity>
@@ -220,7 +87,6 @@ const RegisterScreen = ({ navigation }) => {
             <View>
               <View style={styles['register-premium-input-group']}>
                 <Text style={styles['register-premium-input-label']}>Create Password</Text>
-                <Text style={{ fontSize: 12, color: '#9CA3AF', marginBottom: 10 }}>Create a password so you can also log in using your email and password later.</Text>
                 <View style={styles['register-premium-input-container']}>
                   <Icon name="lock-closed-outline" size={20} color="#5E5CE6" style={styles['register-premium-input-icon']} />
                   <TextInput
