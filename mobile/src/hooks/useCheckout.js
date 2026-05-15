@@ -92,11 +92,12 @@ const useCheckout = (navigation) => {
       setIsProcessing(false);
       
       const navOrder = { _id: result._id, orderNo: result.orderNo, total: result.total, paymentMethod: result.paymentMethod };
-      if (paymentMethod === 'cod') {
-        navigation.replace('OrderSuccess', { order: navOrder });
-      } else {
+      if (paymentMethod !== 'cod') {
         navigation.navigate('PaymentGateway', { order: navOrder, amount: result.total });
+        return;
       }
+      
+      navigation.replace('OrderSuccess', { order: navOrder });
     } catch (error) {
       setIsProcessing(false);
       Alert.alert('Order Failed', error.message || 'Failed to place order');
