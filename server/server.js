@@ -62,7 +62,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
   : [process.env.CLIENT_URL, process.env.ADMIN_URL]; // Specific in development
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? '*' : allowedOrigins,
+  origin: true, // Reflect request origin
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']

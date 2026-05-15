@@ -21,7 +21,11 @@ const AppNavigator = () => {
 
   useEffect(() => {
     dispatch(loadUser()).finally(() => setInitializing(false));
+
+
   }, [dispatch]);
+
+
 
   // Initialize socket when authenticated, disconnect on logout
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity, View } from 'react-native';
@@ -338,6 +339,37 @@ import UpgradeModal from '../components/common/UpgradeModal';
 // APP VERSION
 const CURRENT_VERSION = '1.0.4';
 
+// ==========================================
+// ZENVY CUSTOM CHANGE: Navigation Fix - Tab Bar Visibility
+// Description: This helper hides the bottom tab bar on specific "Action"
+// screens like Checkout and Payment to keep the user focused.
+// ==========================================
+const getTabBarVisibility = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+  const hideOnScreens = [
+    'Checkout', 
+    'Payment', 
+    'PaymentGateway', 
+    'OrderSuccess', 
+    'ProductDetails',
+    'OrderTracking'
+  ];
+
+  // ==========================================
+  // ZENVY CUSTOM CHANGE: Context-Aware Tab Hiding
+  // Description: Only hide tab bar on Addresses if we are 
+  // NOT in the Profile tab. This prevents getting "trapped".
+  // ==========================================
+  if (routeName === 'Addresses' && route.name !== 'Profile') {
+    return 'none';
+  }
+  
+  if (hideOnScreens.includes(routeName)) {
+    return 'none';
+  }
+  return 'flex';
+};
+
 // MAIN NAVIGATOR
 const MainNavigator = () => {
   useActivityTracker(); // 🟢 Real-time monitoring for Developer Terminal
@@ -432,22 +464,81 @@ const MainNavigator = () => {
         <Tab.Screen
           name="Home"
           component={HomeStack}
-          options={{ title: 'Shop' }}
+          options={({ route }) => ({
+            title: 'Shop',
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              // Prevent default action
+              e.preventDefault();
+              // Navigate directly to the Home stack root
+              navigation.navigate('Home', { screen: 'Home' });
+            },
+          })}
         />
 
         {/* RESELLER HUB - Always visible, most prominent */}
         <Tab.Screen
           name="ResellerHub"
           component={ResellerStack}
-          options={{
+          options={({ route }) => ({
             title: 'Earn Money',
-            tabBarLabel: 'Earn'
-          }}
+            tabBarLabel: 'Earn',
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate('ResellerHub', { screen: 'ResellerHubMain' });
+            },
+          })}
         />
 
-        <Tab.Screen name="Cart" component={CartStack} />
-        <Tab.Screen name="Orders" component={OrdersStack} />
-        <Tab.Screen name="Profile" component={ProfileStack} />
+        <Tab.Screen 
+          name="Cart" 
+          component={CartStack} 
+          options={({ route }) => ({
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate('Cart', { screen: 'CartMain' });
+            },
+          })}
+        />
+        <Tab.Screen 
+          name="Orders" 
+          component={OrdersStack} 
+          options={({ route }) => ({
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate('Orders', { screen: 'OrdersList' });
+            },
+          })}
+        />
+        <Tab.Screen 
+          name="Profile" 
+          component={ProfileStack} 
+          options={({ route }) => ({
+            tabBarStyle: { display: getTabBarVisibility(route) }
+          })}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              // ==========================================
+              // ZENVY CUSTOM CHANGE: Navigation Reset Fix
+              // Description: Ensures clicking the Profile tab always 
+              // lands on the main Profile screen, not a sub-screen.
+              // ==========================================
+              navigation.navigate('Profile', { screen: 'ProfileMain' });
+            },
+          })}
+        />
       </Tab.Navigator>
       <UpgradeModal
         visible={upgradeInfo.visible}

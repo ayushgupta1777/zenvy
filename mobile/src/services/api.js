@@ -4,11 +4,11 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { API_BASE_URL as ENV_API_BASE_URL, BASE_URL as ENV_BASE_URL } from '@env';
+import { API_URL as ENV_API_URL, BASE_URL as ENV_BASE_URL } from '@env';
 
 // Base URL - Environment Based
-const API_BASE_URL = ENV_API_BASE_URL || 'http://192.168.10.10:5000/api';
-export const BASE_URL = ENV_BASE_URL || 'http://192.168.10.10:5000';
+const API_URL = ENV_API_URL || 'http://localhost:5000/api';
+export const BASE_URL = ENV_BASE_URL || 'http://localhost:5000';
 
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
@@ -46,7 +46,7 @@ export const getImageUrl = (imagePath) => {
 };
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
