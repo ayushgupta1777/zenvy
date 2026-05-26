@@ -102,7 +102,7 @@ const CategoryManagementScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}><Icon name="chevron-back" size={24} color="#111827" /></TouchableOpacity>
+        <TouchableOpacity onPress={navigation.goBack}><Icon name="chevron-back" size={24} color="#111827" /></TouchableOpacity>
         <Text style={styles.headerTitle}>Categories</Text>
         <TouchableOpacity onPress={openAddRootCategoryModal}><Icon name="add-circle" size={28} color="#4F46E5" /></TouchableOpacity>
       </View>
